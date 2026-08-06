@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chingari Creation — Digital Experiences That Drive Business Growth</title>
+<meta name="description" content="Chingari Creation, run by Rishu Raj in collaboration with Circle Creation. Websites, software, apps, AI automation, WhatsApp CRM and cinematic video production.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#08080a;
+    --panel:#111114;
+    --panel-2:#17171b;
+    --line: rgba(255,255,255,0.08);
+    --ink:#f3f2ee;
+    --ink-dim:#9a9aa2;
+    --orange:#ff5f1f;
+    --orange-2:#ff8a3d;
+    --blue:#3b82f6;
+    --purple:#9b5cf6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  }
+  body{
+    background:var(--black);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; letter-spacing:-0.02em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--orange); color:#fff;}
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-track{background:var(--black);}
+  ::-webkit-scrollbar-thumb{background:#2a2a30; border-radius:8px;}
+
+  /* Loader */
+  #loader{
+    position:fixed; inset:0; background:var(--black); z-index:9999;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
+  .loader-mark{
+    width:56px; height:56px; position:relative;
+  }
+  .loader-mark::before, .loader-mark::after{
+    content:''; position:absolute; inset:0; border-radius:50%;
+    border:2px solid transparent; border-top-color:var(--orange); border-right-color:var(--orange-2);
+    animation:spin 1s linear infinite;
+  }
+  .loader-mark::after{ inset:10px; border-top-color:var(--purple); border-right-color:transparent; animation-duration:.7s; animation-direction:reverse;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loader-text{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.3em; color:var(--ink-dim); text-transform:uppercase;}
+
+  /* Scroll progress */
+  #progress{ position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--orange),var(--purple)); z-index:9998; width:0%;}
+
+  /* Cursor glow (desktop only) */
+  #cursor-glow{
+    position:fixed; width:420px; height:420px; border-radius:50%; pointer-events:none; z-index:1;
+    background:radial-gradient(circle, rgba(255,95,31,0.10), transparent 70%);
+    transform:translate(-50%,-50%); transition:opacity .3s ease; will-change:transform;
+  }
+  @media (max-width:900px){ #cursor-glow{display:none;} }
+
+  /* Ember particles */
+  #embers{ position:absolute; inset:0; overflow:hidden; pointer-events:none;}
+  .ember{
+    position:absolute; bottom:-10px; border-radius:50%;
+    background:radial-gradient(circle, var(--orange-2), var(--orange) 60%, transparent 70%);
+    opacity:0; animation:rise linear infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0;}
+    10%{opacity:.9;}
+    90%{opacity:.5;}
+    100%{ transform:translateY(-110vh) translateX(var(--drift)); opacity:0;}
+  }
+
+  .wrap{ max-width:1240px; margin:0 auto; padding:0 24px;}
+  section{ position:relative; z-index:2;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.25em; text-transform:uppercase;
+    color:var(--orange-2); display:inline-flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before{content:''; width:20px; height:1px; background:var(--orange-2);}
+
+  /* Navbar */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:900;
+    padding:18px 0; transition:background .4s ease, backdrop-filter .4s ease, border-color .4s ease, padding .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(8,8,10,0.75); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line); padding:12px 0;
+  }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; }
+  .logo{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px;}
+  .logo-mark{
+    width:34px; height:34px; border-radius:9px;
+    background:conic-gradient(from 220deg, var(--orange), var(--orange-2), #ffb26b, var(--orange));
+    display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; color:#100a05; font-size:15px;
+    box-shadow:0 0 24px rgba(255,95,31,.35);
+  }
+  nav.links{ display:flex; gap:34px; }
+  nav.links a{ font-size:14px; color:var(--ink-dim); font-weight:500; position:relative; padding:4px 0;}
+  nav.links a:hover{ color:var(--ink);}
+  nav.links a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--orange); transition:width .3s ease;}
+  nav.links a:hover::after{ width:100%;}
+  .nav-cta{ display:flex; gap:12px; align-items:center;}
+  .btn{
+    font-family:'Inter'; font-weight:600; font-size:14px; padding:11px 22px; border-radius:100px;
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer; border:1px solid var(--line);
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{ background:linear-gradient(135deg,var(--orange),#ff8a3d); color:#120b06; border:none;}
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(255,95,31,.35);}
+  .btn-ghost{ color:var(--ink); background:rgba(255,255,255,0.03);}
+  .btn-ghost:hover{ background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,.2);}
+  .btn-outline{ color:var(--ink); border:1px solid var(--line); background:transparent;}
+  .btn-outline:hover{ border-color:var(--orange-2); color:var(--orange-2);}
+  .menu-btn{ display:none; background:none; border:none; color:var(--ink); font-size:22px; cursor:pointer;}
+
+  /* Hero */
+  .hero{
+    min-height:100vh; display:flex; align-items:center; position:relative; padding-top:110px; padding-bottom:80px;
+    background:
+      radial-gradient(ellipse 80% 50% at 30% 0%, rgba(255,95,31,0.15), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 20%, rgba(155,92,246,0.12), transparent 60%),
+      var(--black);
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute; inset:0; background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size:64px 64px; mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
+  }
+  .badge{
+    display:inline-flex; align-items:center; gap:8px; font-size:12.5px; padding:8px 16px; border-radius:100px;
+    border:1px solid var(--line); background:rgba(255,255,255,0.03); color:var(--ink-dim); margin-bottom:26px;
+    font-family:'JetBrains Mono'; letter-spacing:.02em;
+  }
+  .badge span{ color:var(--orange-2); font-weight:600;}
+  .hero h1{
+    font-size:clamp(38px,6.2vw,78px); line-height:1.03; font-weight:700; max-width:920px;
+    background:linear-gradient(180deg,#fff, #d8d8dd 80%); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero h1 .accent{ background:linear-gradient(120deg,var(--orange),var(--orange-2)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p.sub{ font-size:18px; color:var(--ink-dim); max-width:600px; margin-top:26px; line-height:1.65;}
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-top:38px;}
+  .hero-stats{ display:flex; gap:0; margin-top:74px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:32px; max-width:640px;}
+  .hero-stat{ flex:1; min-width:140px; padding-right:24px;}
+  .hero-stat .num{ font-family:'Space Grotesk'; font-size:32px; font-weight:700; color:#fff;}
+  .hero-stat .label{ font-size:13px; color:var(--ink-dim); margin-top:4px;}
+
+  .float-card{
+    position:absolute; background:rgba(20,20,24,.65); backdrop-filter:blur(14px); border:1px solid var(--line);
+    border-radius:16px; padding:16px 18px; box-shadow:0 20px 60px rgba(0,0,0,.5); animation:floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);} }
+
+  section{ padding:120px 0; position:relative;}
+  /* distinct section backgrounds */
+  #about{ background:
+      radial-gradient(ellipse 60% 45% at 85% 10%, rgba(155,92,246,.10), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 5% 90%, rgba(255,95,31,.08), transparent 60%), var(--black);}
+  #services{ background:
+      radial-gradient(ellipse 70% 50% at 15% 0%, rgba(255,95,31,.14), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(59,130,246,.10), transparent 55%), var(--panel);}
+  #products{ background:
+      radial-gradient(ellipse 60% 50% at 90% 0%, rgba(155,92,246,.14), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, rgba(255,95,31,.10), transparent 55%), var(--black);}
+  #portfolio{ background:
+      radial-gradient(ellipse 60% 45% at 10% 0%, rgba(59,130,246,.12), transparent 55%),
+      radial-gradient(ellipse 55% 45% at 95% 90%, rgba(255,95,31,.10), transparent 55%), var(--panel);}
+  section:has(> .wrap > .section-head .eyebrow):nth-of-type(n){}
+  #faq{ background: radial-gradient(ellipse 50% 40% at 80% 10%, rgba(255,95,31,.08), transparent 55%), var(--black);}
+  #pricing{ background:
+      radial-gradient(ellipse 60% 50% at 100% 0%, rgba(255,95,31,.12), transparent 55%),
+      radial-gradient(ellipse 55% 45% at 0% 100%, rgba(155,92,246,.10), transparent 55%), var(--black);}
+  #contact{ background:
+      radial-gradient(ellipse 60% 50% at 0% 0%, rgba(59,130,246,.10), transparent 55%),
+      radial-gradient(ellipse 55% 45% at 100% 100%, rgba(255,95,31,.10), transparent 55%), var(--panel);}
+  .section-head{ max-width:680px; margin-bottom:64px;}
+  .section-head h2{ font-size:clamp(30px,4vw,46px); font-weight:700; line-height:1.1;}
+  .section-head p{ color:var(--ink-dim); font-size:16.5px; margin-top:16px; line-height:1.7;}
+
+  /* reveal animation */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{ opacity:1; transform:translateY(0);}
+  .stagger > *{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .stagger.in > *{ opacity:1; transform:translateY(0);}
+  .stagger.in > *:nth-child(1){transition-delay:.03s;} .stagger.in > *:nth-child(2){transition-delay:.09s;}
+  .stagger.in > *:nth-child(3){transition-delay:.15s;} .stagger.in > *:nth-child(4){transition-delay:.21s;}
+  .stagger.in > *:nth-child(5){transition-delay:.27s;} .stagger.in > *:nth-child(6){transition-delay:.33s;}
+  .stagger.in > *:nth-child(7){transition-delay:.39s;} .stagger.in > *:nth-child(8){transition-delay:.45s;}
+  .stagger.in > *:nth-child(9){transition-delay:.51s;} .stagger.in > *:nth-child(10){transition-delay:.57s;}
+
+  /* About */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:start;}
+  .about-grid p{ color:var(--ink-dim); line-height:1.8; font-size:16px; margin-bottom:18px;}
+  .story-grid{ grid-template-columns:1fr 1fr; gap:16px;}
+  .story-card{
+    position:relative; padding:24px 22px; border-radius:16px; border:1px solid var(--line);
+    background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    box-shadow:0 20px 40px -24px rgba(0,0,0,.7); overflow:hidden;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .story-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px;}
+  .story-card:hover{ transform:translateY(-6px);}
+  .story-card h4{ font-size:16px; margin:14px 0 8px;}
+  .story-card p{ font-size:13.5px; color:var(--ink-dim); line-height:1.65; margin:0;}
+  .story-ico{ width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:18px;}
+  .story-1::before{ background:linear-gradient(90deg,var(--orange),var(--orange-2));}
+  .story-1 .story-ico{ background:rgba(255,95,31,.15); box-shadow:0 8px 20px -8px rgba(255,95,31,.5);}
+  .story-1:hover{ border-color:rgba(255,95,31,.4); box-shadow:0 24px 50px -20px rgba(255,95,31,.25);}
+  .story-2::before{ background:linear-gradient(90deg,var(--blue),#8bb4ff);}
+  .story-2 .story-ico{ background:rgba(59,130,246,.15); box-shadow:0 8px 20px -8px rgba(59,130,246,.5);}
+  .story-2:hover{ border-color:rgba(59,130,246,.4); box-shadow:0 24px 50px -20px rgba(59,130,246,.25);}
+  .story-3::before{ background:linear-gradient(90deg,var(--purple),#c9a8ff);}
+  .story-3 .story-ico{ background:rgba(155,92,246,.15); box-shadow:0 8px 20px -8px rgba(155,92,246,.5);}
+  .story-3:hover{ border-color:rgba(155,92,246,.4); box-shadow:0 24px 50px -20px rgba(155,92,246,.25);}
+  .story-4::before{ background:linear-gradient(90deg,#ffb26b,var(--orange));}
+  .story-4 .story-ico{ background:rgba(255,178,107,.15); box-shadow:0 8px 20px -8px rgba(255,178,107,.5);}
+  .story-4:hover{ border-color:rgba(255,178,107,.4); box-shadow:0 24px 50px -20px rgba(255,178,107,.25);}
+  .pillars{ display:grid; gap:16px;}
+  .pillar{ display:flex; gap:16px; padding:20px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.02);}
+  .pillar-ico{ width:38px; height:38px; flex:none; border-radius:10px; background:linear-gradient(135deg,var(--orange),var(--purple)); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:'Space Grotesk';}
+  .pillar h4{ font-size:15px; margin-bottom:4px;}
+  .pillar p{ font-size:13.5px; color:var(--ink-dim); margin:0;}
+
+  .timeline{ margin-top:60px; display:grid; grid-template-columns:repeat(7,1fr); gap:14px;}
+  .t-step{ border-top:2px solid var(--line); padding-top:16px; position:relative;}
+  .t-step .n{ font-family:'JetBrains Mono'; font-size:12px; color:var(--orange-2);}
+  .t-step h4{ font-size:14.5px; margin-top:8px;}
+  .t-step p{ font-size:12.5px; color:var(--ink-dim); margin-top:6px; line-height:1.5;}
+
+  /* Services */
+  .service-tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
+  .tab-btn{ font-size:13.5px; padding:10px 18px; border-radius:100px; border:1px solid var(--line); background:rgba(255,255,255,.02); color:var(--ink-dim); cursor:pointer; font-family:'Inter'; font-weight:500; transition:all .25s ease;}
+  .tab-btn.active{ background:linear-gradient(135deg,var(--orange),var(--orange-2)); color:#140b05; border-color:transparent; font-weight:600;}
+  .service-panel{ display:none;}
+  .service-panel.active{ display:grid;}
+  .svc-grid{ grid-template-columns:repeat(3,1fr); gap:18px;}
+  .svc-card{
+    border:1px solid var(--line); border-radius:16px; padding:26px;
+    background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 20px 40px -20px rgba(0,0,0,.6);
+    transition:transform .3s ease, border-color .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  .svc-card:hover{ transform:translateY(-8px) scale(1.015); border-color:rgba(255,95,31,.45); background:linear-gradient(160deg, rgba(255,95,31,.10), rgba(155,92,246,.03)); box-shadow:0 30px 60px -20px rgba(255,95,31,.25);}
+  .svc-card h4{ font-size:16px; margin-bottom:8px;}
+  .svc-card p{ font-size:13.5px; color:var(--ink-dim); line-height:1.6;}
+  .svc-num{ font-family:'JetBrains Mono'; font-size:12px; color:var(--ink-dim); margin-bottom:14px; display:block;}
+  .svc-card.svc-hidden{ display:none;}
+  .show-more-wrap{ grid-column:1/-1; display:flex; justify-content:center; margin-top:8px;}
+  .show-more-btn{
+    font-family:'JetBrains Mono'; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+    padding:12px 26px; border-radius:100px; border:1px solid var(--line); background:rgba(255,255,255,.03);
+    color:var(--orange-2); cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all .25s ease;
+  }
+  .show-more-btn:hover{ border-color:var(--orange-2); background:rgba(255,95,31,.08);}
+  .show-more-btn .arrow{ transition:transform .3s ease;}
+  .show-more-btn.open .arrow{ transform:rotate(180deg);}
+
+  /* Products */
+  .products{ display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+  .product-card{
+    border-radius:24px; padding:40px; position:relative; overflow:hidden; border:1px solid var(--line);
+    box-shadow:0 30px 60px -25px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.06) inset;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .product-card:hover{ transform:translateY(-10px) scale(1.01); box-shadow:0 40px 80px -25px rgba(0,0,0,.9);}
+  .product-card.flownex{ background:radial-gradient(circle at 20% 0%, rgba(59,130,246,.22), transparent 55%), radial-gradient(circle at 100% 100%, rgba(155,92,246,.2), transparent 55%), var(--panel);}
+  .product-card.schoolnex{ background:radial-gradient(circle at 20% 0%, rgba(255,95,31,.2), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,178,107,.16), transparent 55%), var(--panel);}
+  .product-tag{ font-family:'JetBrains Mono'; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-dim);}
+  .product-card h3{ font-size:32px; margin:10px 0 6px;}
+  .product-card .desc{ color:var(--ink-dim); font-size:14.5px; margin-bottom:24px; max-width:400px;}
+  .feat-list{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:30px;}
+  .feat-list li{ list-style:none; font-size:13.5px; color:var(--ink); display:flex; gap:8px; align-items:center;}
+  .feat-list li::before{ content:'✦'; color:var(--orange-2); font-size:11px;}
+  .product-card.flownex .feat-list li::before{ color:#8bb4ff;}
+
+  /* Portfolio */
+  .filter-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px;}
+  .masonry{ columns:3 240px; column-gap:18px;}
+  .m-item{ break-inside:avoid; margin-bottom:18px; border-radius:16px; overflow:hidden; position:relative; border:1px solid var(--line); cursor:pointer; box-shadow:0 20px 40px -22px rgba(0,0,0,.7); transition:transform .3s ease, box-shadow .3s ease;}
+  .m-item:hover{ transform:translateY(-6px); box-shadow:0 28px 55px -18px rgba(255,95,31,.3);}
+  .m-item .ph{ width:100%; display:block; padding:22px 18px; min-height:180px; background:linear-gradient(150deg,var(--panel-2),var(--panel) 60%); position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between;}
+  .m-item .ph::before{ content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(255,95,31,.18), transparent 60%);}
+  .m-item .price-badge{ align-self:flex-start; font-family:'JetBrains Mono'; font-size:11px; background:linear-gradient(135deg,var(--orange),var(--orange-2)); color:#140b05; padding:5px 10px; border-radius:100px; font-weight:600; position:relative; z-index:1;}
+  .m-item .ph-title{ font-family:'Space Grotesk'; font-size:17px; font-weight:600; margin-top:14px; position:relative; z-index:1;}
+  .m-item .ph-feats{ list-style:none; margin-top:10px; position:relative; z-index:1;}
+  .m-item .ph-feats li{ font-size:12px; color:var(--ink-dim); padding:2px 0;}
+  .m-item .ph-feats li::before{ content:'✓ '; color:var(--orange-2);}
+  .m-item .ph::after{ content:attr(data-cat); position:absolute; bottom:10px; left:12px; font-family:'JetBrains Mono'; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-dim); }
+  .m-item .overlay{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:16px; background:linear-gradient(to top, rgba(0,0,0,.85), transparent 60%); opacity:0; transition:opacity .3s ease;}
+  .m-item:hover .overlay{ opacity:1;}
+  .m-item .overlay h5{ font-size:14.5px; font-weight:600;}
+  .m-item .overlay span{ font-size:11.5px; color:var(--orange-2); font-family:'JetBrains Mono';}
+  .hide{ display:none !important;}
+
+  /* Tech stack */
+  .tech-marquee{ overflow:hidden; position:relative; padding:30px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .tech-track{ display:flex; gap:60px; width:max-content; animation:scroll-left 28s linear infinite;}
+  @keyframes scroll-left{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  .tech-item{ font-family:'Space Grotesk'; font-size:20px; color:var(--ink-dim); font-weight:600; white-space:nowrap; display:flex; align-items:center; gap:10px;}
+  .tech-item::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--orange);}
+
+  /* Why us */
+  .why-grid{ grid-template-columns:repeat(3,1fr); gap:20px;}
+  .why-card{ padding:28px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,0)); box-shadow:0 20px 40px -24px rgba(0,0,0,.7); transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;}
+  .why-card:hover{ transform:translateY(-6px); border-color:rgba(155,92,246,.4); box-shadow:0 24px 50px -20px rgba(155,92,246,.25);}
+  .why-card .ico{ width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg, rgba(255,95,31,.25), rgba(155,92,246,.2)); box-shadow:0 8px 20px -8px rgba(255,95,31,.5); display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--orange-2); font-size:18px;}
+  .why-card h4{ font-size:16px; margin-bottom:6px;}
+  .why-card p{ font-size:13.5px; color:var(--ink-dim); line-height:1.6;}
+
+  /* Stats */
+  .stats-band{ background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .stats-grid{ grid-template-columns:repeat(5,1fr); gap:20px; text-align:center;}
+  .stat-num{ font-family:'Space Grotesk'; font-size:44px; font-weight:700; background:linear-gradient(135deg,var(--orange),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .stat-label{ font-size:13px; color:var(--ink-dim); margin-top:6px;}
+
+  /* Pricing */
+  .pricing-grid{ grid-template-columns:repeat(4,1fr); gap:18px;}
+  .price-card{ border:1px solid var(--line); border-radius:18px; padding:28px 24px; background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01)); box-shadow:0 20px 45px -24px rgba(0,0,0,.7); transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;}
+  .price-card:hover{ transform:translateY(-8px) scale(1.015); border-color:rgba(255,95,31,.4); box-shadow:0 30px 60px -20px rgba(255,95,31,.25);}
+  .price-card.pop{ background:linear-gradient(160deg, rgba(255,95,31,.16), rgba(155,92,246,.08)); border-color:rgba(255,95,31,.5); box-shadow:0 25px 55px -18px rgba(255,95,31,.35);}
+  .price-tag{ font-size:12px; font-family:'JetBrains Mono'; color:var(--orange-2); text-transform:uppercase; letter-spacing:.1em;}
+  .price-card h4{ font-size:18px; margin:10px 0 14px;}
+  .price-amt{ font-family:'Space Grotesk'; font-size:30px; font-weight:700;}
+  .price-amt span{ font-size:13px; color:var(--ink-dim); font-family:'Inter'; font-weight:400;}
+  .price-card ul{ margin:20px 0 24px; padding:0; list-style:none;}
+  .price-card li{ font-size:13px; color:var(--ink-dim); padding:6px 0; display:flex; gap:8px;}
+  .price-card li::before{ content:'✓'; color:var(--orange-2);}
+
+  /* Testimonials */
+  .test-grid{ grid-template-columns:repeat(3,1fr); gap:20px;}
+  .test-card{ border:1px solid var(--line); border-radius:18px; padding:28px; background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01)); box-shadow:0 20px 40px -24px rgba(0,0,0,.7); transition:transform .3s ease;}
+  .test-card:hover{ transform:translateY(-6px);}
+  .stars{ color:var(--orange-2); font-size:14px; margin-bottom:14px; letter-spacing:2px;}
+  .test-card p{ font-size:14.5px; color:#dcdce0; line-height:1.7; margin-bottom:22px;}
+  .test-who{ display:flex; align-items:center; gap:12px;}
+  .avatar{ width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--orange),var(--purple)); display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; font-size:14px;}
+  .test-who .name{ font-size:13.5px; font-weight:600;}
+  .test-who .role{ font-size:12px; color:var(--ink-dim);}
+
+  /* FAQ */
+  .faq-item{ border-bottom:1px solid var(--line);}
+  .faq-q{ display:flex; align-items:center; justify-content:space-between; padding:22px 4px; cursor:pointer; font-size:16px; font-weight:500;}
+  .faq-q .plus{ font-size:20px; color:var(--orange-2); transition:transform .3s ease; flex:none; margin-left:20px;}
+  .faq-item.open .plus{ transform:rotate(45deg);}
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .4s ease;}
+  .faq-a p{ padding:0 4px 22px; color:var(--ink-dim); font-size:14.5px; line-height:1.7; max-width:700px;}
+
+  /* Contact */
+  .contact-grid{ grid-template-columns:1.1fr .9fr; gap:50px;}
+  .form-field{ margin-bottom:18px;}
+  .form-field label{ font-size:12.5px; color:var(--ink-dim); display:block; margin-bottom:8px; font-family:'JetBrains Mono'; letter-spacing:.05em;}
+  .form-field input, .form-field textarea, .form-field select{
+    width:100%; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:10px; padding:13px 16px;
+    color:var(--ink); font-family:'Inter'; font-size:14.5px; outline:none; transition:border-color .25s ease;
+  }
+  .form-field input:focus, .form-field textarea:focus, .form-field select:focus{ border-color:var(--orange-2);}
+  .contact-info-card{ border:1px solid var(--line); border-radius:18px; padding:26px; background:rgba(255,255,255,.02); margin-bottom:16px; display:flex; gap:16px; align-items:flex-start;}
+  .contact-info-card .ico{ width:38px; height:38px; border-radius:10px; background:rgba(255,95,31,.12); display:flex; align-items:center; justify-content:center; color:var(--orange-2); flex:none;}
+  .contact-info-card h5{ font-size:14px; margin-bottom:4px;}
+  .contact-info-card p{ font-size:13.5px; color:var(--ink-dim);}
+  .map-box{ border-radius:18px; overflow:hidden; border:1px solid var(--line); height:180px; background:var(--panel); display:flex; align-items:center; justify-content:center; color:var(--ink-dim); font-family:'JetBrains Mono'; font-size:12px;}
+
+  footer{ border-top:1px solid var(--line); padding:70px 0 30px; background:var(--panel);}
+  .footer-grid{ grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:60px;}
+  .footer-grid h5{ font-size:13px; margin-bottom:18px; color:var(--ink-dim); letter-spacing:.05em; text-transform:uppercase; font-family:'JetBrains Mono'; font-weight:500;}
+  .footer-grid ul{ list-style:none; padding:0;}
+  .footer-grid li{ margin-bottom:10px;}
+  .footer-grid a{ font-size:14px; color:var(--ink-dim); transition:color .2s ease;}
+  .footer-grid a:hover{ color:var(--ink);}
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:26px; border-top:1px solid var(--line); flex-wrap:wrap; gap:14px;}
+  .footer-bottom p{ font-size:12.5px; color:var(--ink-dim);}
+  .social-row{ display:flex; gap:12px;}
+  .social-row a{ width:36px; height:36px; border-radius:10px; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:13px; transition:all .25s ease;}
+  .social-row a:hover{ border-color:var(--orange-2); color:var(--orange-2); transform:translateY(-2px);}
+
+  .grid{ display:grid;}
+
+  .whatsapp-float{
+    position:fixed; bottom:26px; right:26px; z-index:500; width:58px; height:58px; border-radius:50%;
+    background:#25D366; display:flex; align-items:center; justify-content:center; font-size:26px; color:#fff;
+    box-shadow:0 10px 30px rgba(37,211,102,.5); animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{box-shadow:0 10px 30px rgba(37,211,102,.5);} 50%{box-shadow:0 10px 30px rgba(37,211,102,.9), 0 0 0 10px rgba(37,211,102,.08);} }
+
+  @media (max-width:980px){
+    nav.links, .nav-cta{ display:none;}
+    .menu-btn{ display:block;}
+    .about-grid, .contact-grid, .products{ grid-template-columns:1fr;}
+    .svc-grid, .why-grid, .test-grid{ grid-template-columns:repeat(2,1fr);}
+    .pricing-grid{ grid-template-columns:repeat(2,1fr);}
+    .stats-grid{ grid-template-columns:repeat(3,1fr);}
+    .timeline{ grid-template-columns:repeat(4,1fr);}
+    .footer-grid{ grid-template-columns:repeat(2,1fr);}
+    .masonry{ columns:2 200px;}
+  }
+  @media (max-width:640px){
+    section{ padding:80px 0;}
+    .svc-grid, .why-grid, .test-grid, .pricing-grid, .stats-grid{ grid-template-columns:1fr 1fr;}
+    .stats-grid{ grid-template-columns:1fr 1fr;}
+    .timeline{ grid-template-columns:1fr 1fr;}
+    .masonry{ columns:1 200px;}
+    .story-grid{ grid-template-columns:1fr;}
+    .footer-grid{ grid-template-columns:1fr;}
+    .hero-stats{ gap:16px;}
+  }
+
+  /* Mobile menu */
+  #mobile-menu{
+    position:fixed; inset:0; background:rgba(8,8,10,.98); backdrop-filter:blur(10px); z-index:950;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+    transform:translateY(-100%); transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  #mobile-menu.open{ transform:translateY(0);}
+  #mobile-menu a{ font-size:22px; font-family:'Space Grotesk'; font-weight:600;}
+  #mobile-menu .close-btn{ position:absolute; top:24px; right:24px; font-size:26px; background:none; border:none; color:#fff;}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-mark"></div><div class="loader-text">Chingari Creation</div></div>
+<div id="progress"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAVBAR -->
+<header id="site-header">
+  <div class="wrap nav-inner">
+    <a href="#home" class="logo"><span class="logo-mark">C</span> Chingari Creation</a>
+    <nav class="links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#products">Products</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="https://wa.me/917988628102" class="btn btn-ghost">WhatsApp</a>
+      <a href="#contact" class="btn btn-primary magnetic">Get Quote</a>
+    </div>
+    <button class="menu-btn" id="menu-open">☰</button>
+  </div>
+</header>
+
+<div id="mobile-menu">
+  <button class="close-btn" id="menu-close">✕</button>
+  <a href="#home">Home</a>
+  <a href="#services">Services</a>
+  <a href="#products">Products</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <a href="https://wa.me/917988628102" class="btn btn-primary" style="margin-top:14px;">WhatsApp Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div id="embers"></div>
+  <div class="wrap">
+    <div class="badge reveal">In collaboration with <span>Circle Creation</span></div>
+    <h1 class="reveal">Building Digital Experiences That <span class="accent">Drive Business Growth.</span></h1>
+    <p class="sub reveal">We design premium websites, software, mobile apps, AI automation and WhatsApp CRM systems — paired with cinematic promotional videos that help real businesses get found, get leads, and get paid faster. Run by Rishu Raj.</p>
+    <div class="hero-actions reveal">
+      <a href="#contact" class="btn btn-primary magnetic">Get Quote</a>
+      <a href="https://wa.me/917988628102" class="btn btn-ghost magnetic">WhatsApp</a>
+      <a href="tel:+917988628102" class="btn btn-outline magnetic">Call Now</a>
+      <a href="#portfolio" class="btn btn-outline magnetic">View Portfolio</a>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="hero-stat"><div class="num"><span class="counter" data-target="500">0</span>+</div><div class="label">Projects Delivered</div></div>
+      <div class="hero-stat"><div class="num"><span class="counter" data-target="95">0</span>+</div><div class="label">Happy Clients</div></div>
+      <div class="hero-stat"><div class="num">24×7</div><div class="label">Support</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">About Us</div>
+      <h2>A small studio built to ship real results, not just pretty screens.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="grid story-grid stagger">
+        <div class="story-card story-1"><div class="story-ico">⚡</div><h4>The Spark</h4><p>Chingari Creation started with a simple frustration: too many businesses were paying for "designs" that never turned into customers. So we built a studio around the opposite idea — every website, every automation, every reel has one job, growth.</p></div>
+        <div class="story-card story-2"><div class="story-ico">🎯</div><h4>Our Mission</h4><p>Give small and mid-size businesses across India the same calibre of digital presence that large brands pay lakhs for, without the agency bloat.</p></div>
+        <div class="story-card story-3"><div class="story-ico">🚀</div><h4>Our Vision</h4><p>Become the go-to growth partner for 1,000+ Indian businesses — powering their websites, software and marketing from one team, one relationship.</p></div>
+        <div class="story-card story-4"><div class="story-ico">🏭</div><h4>Industries Served</h4><p>Real estate, education, healthcare, hospitality, retail and D2C — every recommendation is grounded in what has actually converted for a business like yours.</p></div>
+      </div>
+      <div class="pillars reveal">
+        <div class="pillar"><div class="pillar-ico">5+</div><div><h4>Years of hands-on experience</h4><p>Across web, software, marketing and video production.</p></div></div>
+        <div class="pillar"><div class="pillar-ico">CC</div><div><h4>In collaboration with Circle Creation</h4><p>Branding and performance marketing partner for every project.</p></div></div>
+        <div class="pillar"><div class="pillar-ico">IN</div><div><h4>Pan-India service</h4><p>Remote-first delivery with on-ground shoots wherever needed.</p></div></div>
+        <div class="pillar"><div class="pillar-ico">∞</div><div><h4>Lifetime guidance</h4><p>We don't disappear after handover — ongoing support included.</p></div></div>
+      </div>
+    </div>
+
+    <div class="timeline stagger">
+      <div class="t-step"><div class="n">01</div><h4>Discovery</h4><p>Understand your business, audience and goals.</p></div>
+      <div class="t-step"><div class="n">02</div><h4>Planning</h4><p>Scope, sitemap and tech stack finalised.</p></div>
+      <div class="t-step"><div class="n">03</div><h4>Design</h4><p>UI/UX crafted in Figma, reviewed with you.</p></div>
+      <div class="t-step"><div class="n">04</div><h4>Development</h4><p>Clean, scalable code — built to last.</p></div>
+      <div class="t-step"><div class="n">05</div><h4>Testing</h4><p>Cross-device QA before anything ships.</p></div>
+      <div class="t-step"><div class="n">06</div><h4>Launch</h4><p>Go live with monitoring in place.</p></div>
+      <div class="t-step"><div class="n">07</div><h4>Support</h4><p>Ongoing updates and priority help.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">What We Do</div>
+      <h2>Full-stack digital services under one roof.</h2>
+      <p>From the first line of code to the last frame of a brand film — pick a service or bundle a few.</p>
+    </div>
+
+    <div class="service-tabs reveal">
+      <button class="tab-btn active" data-tab="web">Website Development</button>
+      <button class="tab-btn" data-tab="software">Software Development</button>
+      <button class="tab-btn" data-tab="app">App Development</button>
+      <button class="tab-btn" data-tab="ai">AI Automation</button>
+      <button class="tab-btn" data-tab="marketing">Digital Marketing</button>
+      <button class="tab-btn" data-tab="video">Cinematic Video</button>
+    </div>
+
+    <div class="service-panel active svc-grid" data-panel="web">
+      <div class="svc-card"><span class="svc-num">01</span><h4>Business Website</h4><p>Fast, credible sites that convert visitors into enquiries.</p></div>
+      <div class="svc-card"><span class="svc-num">02</span><h4>Portfolio Website</h4><p>For creators and professionals who need to show, not tell.</p></div>
+      <div class="svc-card"><span class="svc-num">03</span><h4>Landing Page</h4><p>Single-purpose pages built for one campaign, one conversion.</p></div>
+      <div class="svc-card"><span class="svc-num">04</span><h4>School Website</h4><p>Admissions-ready sites with notices, gallery and staff portals.</p></div>
+      <div class="svc-card"><span class="svc-num">05</span><h4>Hospital Website</h4><p>Doctor listings, appointment booking and patient trust signals.</p></div>
+      <div class="svc-card"><span class="svc-num">06</span><h4>Hotel Website</h4><p>Room showcases with direct booking to cut OTA commissions.</p></div>
+      <div class="svc-card"><span class="svc-num">07</span><h4>Resort Website</h4><p>Immersive galleries and experience-led storytelling.</p></div>
+      <div class="svc-card"><span class="svc-num">08</span><h4>Restaurant Website</h4><p>Menus, reservations and delivery links in one place.</p></div>
+      <div class="svc-card"><span class="svc-num">09</span><h4>Real Estate Website</h4><p>Project listings, floor plans and lead capture built in.</p></div>
+      <div class="svc-card"><span class="svc-num">10</span><h4>E-Commerce Website</h4><p>Full storefronts with payments, inventory and order tracking.</p></div>
+    </div>
+
+    <div class="service-panel svc-grid" data-panel="software">
+      <div class="svc-card"><span class="svc-num">01</span><h4>CRM</h4><p>Track leads, follow-ups and deals in one dashboard.</p></div>
+      <div class="svc-card"><span class="svc-num">02</span><h4>Billing Software</h4><p>GST-ready invoicing built for Indian businesses.</p></div>
+      <div class="svc-card"><span class="svc-num">03</span><h4>Inventory Software</h4><p>Real-time stock tracking across locations.</p></div>
+      <div class="svc-card"><span class="svc-num">04</span><h4>School ERP</h4><p>Admissions, attendance, fees and results — unified.</p></div>
+      <div class="svc-card"><span class="svc-num">05</span><h4>Hospital Management</h4><p>OPD, records and billing for clinics and hospitals.</p></div>
+      <div class="svc-card"><span class="svc-num">06</span><h4>Hotel Management</h4><p>Bookings, housekeeping and front-desk operations.</p></div>
+      <div class="svc-card"><span class="svc-num">07</span><h4>HRMS</h4><p>Employee records, leave and performance in one system.</p></div>
+      <div class="svc-card"><span class="svc-num">08</span><h4>Payroll Software</h4><p>Automated salary runs with compliance built in.</p></div>
+      <div class="svc-card"><span class="svc-num">09</span><h4>Accounting Software</h4><p>Ledgers, expenses and reports without the spreadsheet mess.</p></div>
+      <div class="svc-card"><span class="svc-num">10</span><h4>Custom Software</h4><p>Anything off-the-shelf tools can't do, we build from scratch.</p></div>
+    </div>
+
+    <div class="service-panel svc-grid" data-panel="app">
+      <div class="svc-card"><span class="svc-num">01</span><h4>Android Apps</h4><p>Native performance for the largest mobile audience in India.</p></div>
+      <div class="svc-card"><span class="svc-num">02</span><h4>iOS Apps</h4><p>Polished, App Store-ready experiences.</p></div>
+      <div class="svc-card"><span class="svc-num">03</span><h4>Flutter Apps</h4><p>One codebase, both platforms, faster timelines.</p></div>
+      <div class="svc-card"><span class="svc-num">04</span><h4>Teaching App</h4><p>Live classes, tests and content delivery for edtech.</p></div>
+      <div class="svc-card"><span class="svc-num">05</span><h4>Food Delivery App</h4><p>Ordering, tracking and payments end-to-end.</p></div>
+      <div class="svc-card"><span class="svc-num">06</span><h4>Grocery App</h4><p>Catalogue, cart and delivery slotting built in.</p></div>
+      <div class="svc-card"><span class="svc-num">07</span><h4>CRM App</h4><p>Mobile-first sales tracking for on-ground teams.</p></div>
+      <div class="svc-card"><span class="svc-num">08</span><h4>Business App</h4><p>A companion app for your existing operations.</p></div>
+      <div class="svc-card"><span class="svc-num">09</span><h4>Custom Apps</h4><p>Purpose-built for a workflow only you have.</p></div>
+    </div>
+
+    <div class="service-panel svc-grid" data-panel="ai">
+      <div class="svc-card"><span class="svc-num">01</span><h4>WhatsApp CRM</h4><p>Every conversation, lead and follow-up in one inbox.</p></div>
+      <div class="svc-card"><span class="svc-num">02</span><h4>AI Chatbot</h4><p>Instant replies, 24×7, on your site or WhatsApp.</p></div>
+      <div class="svc-card"><span class="svc-num">03</span><h4>Lead Qualification</h4><p>Let AI filter serious buyers before your team steps in.</p></div>
+      <div class="svc-card"><span class="svc-num">04</span><h4>Appointment Booking</h4><p>Automated scheduling with reminders built in.</p></div>
+      <div class="svc-card"><span class="svc-num">05</span><h4>Sales Automation</h4><p>Follow-ups that never get forgotten again.</p></div>
+      <div class="svc-card"><span class="svc-num">06</span><h4>Email Automation</h4><p>Nurture sequences that run while you sleep.</p></div>
+      <div class="svc-card"><span class="svc-num">07</span><h4>Marketing Automation</h4><p>Connect ads, CRM and messaging into one flow.</p></div>
+    </div>
+
+    <div class="service-panel svc-grid" data-panel="marketing">
+      <div class="svc-card"><span class="svc-num">01</span><h4>Google Ads</h4><p>Show up when your customer is already searching.</p></div>
+      <div class="svc-card"><span class="svc-num">02</span><h4>Meta Ads</h4><p>Precision targeting across Instagram and Facebook.</p></div>
+      <div class="svc-card"><span class="svc-num">03</span><h4>SEO</h4><p>Rank higher, get found for free, month after month.</p></div>
+      <div class="svc-card"><span class="svc-num">04</span><h4>Social Media Management</h4><p>Consistent posting, engagement and growth.</p></div>
+      <div class="svc-card"><span class="svc-num">05</span><h4>Brand Strategy</h4><p>Positioning and messaging that actually sticks.</p></div>
+    </div>
+
+    <div class="service-panel svc-grid" data-panel="video">
+      <div class="svc-card"><span class="svc-num">01</span><h4>Hotels & Resorts</h4><p>Cinematic walkthroughs that sell the experience.</p></div>
+      <div class="svc-card"><span class="svc-num">02</span><h4>Builders & Real Estate</h4><p>Project films that move site visits forward.</p></div>
+      <div class="svc-card"><span class="svc-num">03</span><h4>Factories & Corporate</h4><p>Showcase capability and scale with authority.</p></div>
+      <div class="svc-card"><span class="svc-num">04</span><h4>Restaurants</h4><p>Food-forward films built for social discovery.</p></div>
+      <div class="svc-card"><span class="svc-num">05</span><h4>Drone Shoot</h4><p>Aerial coverage that adds scale to any story.</p></div>
+      <div class="svc-card"><span class="svc-num">06</span><h4>Commercial Ads</h4><p>Short, sharp films built for paid media.</p></div>
+      <div class="svc-card"><span class="svc-num">07</span><h4>Brand Films</h4><p>Longer-form storytelling for your brand's identity.</p></div>
+      <div class="svc-card"><span class="svc-num">08</span><h4>Social Media Reels</h4><p>Snackable content built for the scroll.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Our Products</div>
+      <h2>Software we've built, that we now sell.</h2>
+      <p>Two products born from real client problems — now powering businesses beyond our own client list.</p>
+    </div>
+    <div class="products">
+      <div class="product-card flownex reveal">
+        <div class="product-tag">Product 01 · AI WhatsApp CRM</div>
+        <h3>FlowNex</h3>
+        <p class="desc">Your 24×7 AI employee — it replies instantly, qualifies leads, books appointments and never lets a WhatsApp conversation go cold.</p>
+        <ul class="feat-list">
+          <li>Instant Replies</li><li>Lead Capture</li>
+          <li>AI Chatbot</li><li>Booking Automation</li>
+          <li>Built-in CRM</li><li>Analytics Dashboard</li>
+        </ul>
+        <a href="https://flownex.in" target="_blank" class="btn btn-primary magnetic">Visit Product →</a>
+      </div>
+      <div class="product-card schoolnex reveal">
+        <div class="product-tag">Product 02 · School ERP</div>
+        <h3>SchoolNex</h3>
+        <p class="desc">One system to run admissions, attendance, fees, results and teacher communication — built for Indian schools.</p>
+        <ul class="feat-list">
+          <li>Student Management</li><li>Attendance Tracking</li>
+          <li>Fee Collection</li><li>Result Management</li>
+          <li>Teacher Portal</li><li>Parent Updates</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary magnetic">Visit Product →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Our Work</div>
+      <h2>A cross-section of what we've shipped.</h2>
+    </div>
+    <div class="filter-row reveal">
+      <button class="tab-btn active" data-filter="all">All</button>
+      <button class="tab-btn" data-filter="Website">Website</button>
+      <button class="tab-btn" data-filter="Software">Software</button>
+      <button class="tab-btn" data-filter="App">App</button>
+      <button class="tab-btn" data-filter="CRM">CRM</button>
+      <button class="tab-btn" data-filter="Video">Video</button>
+      <button class="tab-btn" data-filter="Drone">Drone</button>
+      <button class="tab-btn" data-filter="Branding">Branding</button>
+    </div>
+    <div class="masonry" id="masonry-grid">
+      <!-- items injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<div class="tech-marquee">
+  <div class="tech-track" id="tech-track">
+    <div class="tech-item">HTML5</div><div class="tech-item">CSS3</div><div class="tech-item">JavaScript</div>
+    <div class="tech-item">TypeScript</div><div class="tech-item">React</div><div class="tech-item">Next.js</div>
+    <div class="tech-item">Node.js</div><div class="tech-item">Express</div><div class="tech-item">PHP</div>
+    <div class="tech-item">Laravel</div><div class="tech-item">Flutter</div><div class="tech-item">Kotlin</div>
+    <div class="tech-item">Firebase</div><div class="tech-item">MongoDB</div><div class="tech-item">MySQL</div>
+    <div class="tech-item">AWS</div><div class="tech-item">Docker</div><div class="tech-item">Git</div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2>Nine reasons clients stay past project one.</h2>
+    </div>
+    <div class="grid why-grid stagger">
+      <div class="why-card"><div class="ico">⚡</div><h4>Fast Delivery</h4><p>Realistic timelines, held tightly — not slipped every sprint.</p></div>
+      <div class="why-card"><div class="ico">✦</div><h4>Modern UI</h4><p>Design that looks current, not recycled from 2019 templates.</p></div>
+      <div class="why-card"><div class="ico">🔍</div><h4>SEO Friendly</h4><p>Built to rank from day one, not retrofitted later.</p></div>
+      <div class="why-card"><div class="ico">📱</div><h4>Fully Responsive</h4><p>Looks right on every screen, every time.</p></div>
+      <div class="why-card"><div class="ico">🔒</div><h4>Secure by Default</h4><p>Best practices baked into every build.</p></div>
+      <div class="why-card"><div class="ico">📈</div><h4>Scalable</h4><p>Architecture that grows with your business, not against it.</p></div>
+      <div class="why-card"><div class="ico">₹</div><h4>Affordable</h4><p>Agency-grade output without agency-size invoices.</p></div>
+      <div class="why-card"><div class="ico">∞</div><h4>Lifetime Guidance</h4><p>Questions after launch still get answered.</p></div>
+      <div class="why-card"><div class="ico">🎧</div><h4>Dedicated Support</h4><p>A real person, not a ticket queue.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-band">
+  <div class="wrap">
+    <div class="grid stats-grid stagger">
+      <div><div class="stat-num"><span class="counter" data-target="500">0</span>+</div><div class="stat-label">Projects</div></div>
+      <div><div class="stat-num"><span class="counter" data-target="300">0</span>+</div><div class="stat-label">Clients</div></div>
+      <div><div class="stat-num"><span class="counter" data-target="5">0</span>+</div><div class="stat-label">Years</div></div>
+      <div><div class="stat-num">24×7</div><div class="stat-label">Support</div></div>
+      <div><div class="stat-num">Pan India</div><div class="stat-label">Service</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Pricing</div>
+      <h2>Transparent starting prices. Final quote after a quick call.</h2>
+      <p>Every project is scoped to your business — these are starting points, not the ceiling.</p>
+    </div>
+    <div class="grid pricing-grid stagger">
+      <div class="price-card"><div class="price-tag">Website</div><h4>Landing Page</h4><div class="price-amt">₹3,999</div><ul><li>Single page</li><li>Mobile responsive</li><li>Contact form</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card pop"><div class="price-tag">Most Popular</div><h4>Portfolio Website</h4><div class="price-amt">₹7,999</div><ul><li>Up to 5 pages</li><li>Custom design</li><li>SEO basics included</li></ul><a href="#contact" class="btn btn-primary" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Website</div><h4>Business Website</h4><div class="price-amt">₹9,999</div><ul><li>Up to 8 pages</li><li>CMS enabled</li><li>Speed optimised</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">App</div><h4>Teaching App</h4><div class="price-amt">₹25,000</div><ul><li>Android + iOS</li><li>Live classes</li><li>Payments included</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Software</div><h4>CRM</h4><div class="price-amt">₹40,000</div><ul><li>Lead pipeline</li><li>Team accounts</li><li>Custom fields</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Software</div><h4>School ERP</h4><div class="price-amt">₹35,000</div><ul><li>Admissions to results</li><li>Teacher portal</li><li>Parent app access</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Software</div><h4>Custom Software</h4><div class="price-amt">Starting ₹50,000</div><ul><li>Scoped to your workflow</li><li>Dedicated build</li><li>Post-launch support</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Marketing</div><h4>Google Ads</h4><div class="price-amt">₹7,999<span>/mo</span></div><ul><li>Campaign setup</li><li>Ongoing optimisation</li><li>Monthly reporting</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Marketing</div><h4>SEO</h4><div class="price-amt">₹5,999<span>/mo</span></div><ul><li>On-page + technical</li><li>Content guidance</li><li>Rank tracking</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">AI</div><h4>WhatsApp AI</h4><div class="price-amt">₹9,999</div><ul><li>Instant replies</li><li>Lead capture</li><li>FlowNex powered</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">AI</div><h4>AI Chatbot</h4><div class="price-amt">₹15,000</div><ul><li>Website + WhatsApp</li><li>Custom training</li><li>Analytics included</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">Video</div><h4>Cinematic Video</h4><div class="price-amt">₹12,999</div><ul><li>Half-day shoot</li><li>Drone coverage add-on</li><li>Edited delivery</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ON / MARKETING SUBSCRIPTION PLANS -->
+<section id="addons" style="background:
+    radial-gradient(ellipse 60% 50% at 100% 0%, rgba(59,130,246,.14), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 0% 100%, rgba(255,95,31,.12), transparent 55%), var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Add-On Packages</div>
+      <h2>Marketing subscriptions to keep the momentum going.</h2>
+      <p>One-time setups and ongoing monthly management for ads, social and YouTube.</p>
+    </div>
+    <div class="grid pricing-grid stagger">
+      <div class="price-card"><div class="price-tag">One-Time Setup</div><h4>Google Ads Setup</h4><div class="price-amt">₹2,999</div><ul><li>Search & Display Network</li><li>4 Campaigns / Month</li><li>Keyword Research</li><li>Conversion Tracking</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">One-Time Setup</div><h4>Meta Ads Setup</h4><div class="price-amt">₹2,999</div><ul><li>Instagram + Facebook Ads</li><li>4 Campaigns / Month</li><li>Leads & Awareness</li><li>Weekly Reports</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card pop"><div class="price-tag">Best Value</div><h4>Combo Package</h4><div class="price-amt">₹4,999</div><ul><li>Meta + Google Ads</li><li>8 Campaigns / Month</li><li>Video & Poster Ads</li><li>Dedicated Expert</li></ul><a href="#contact" class="btn btn-primary" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card"><div class="price-tag">One-Time Setup</div><h4>Instagram & Facebook Setup</h4><div class="price-amt">₹2,500</div><ul><li>Profile Optimization</li><li>Cover Design</li><li>Bio Optimization</li><li>Content Strategy</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Enquire Now</a></div>
+      <div class="price-card"><div class="price-tag">One-Time Setup</div><h4>Google My Business</h4><div class="price-amt">₹2,500</div><ul><li>Profile Verification</li><li>Posts Setup</li><li>Reviews Management</li><li>Local SEO</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Enquire Now</a></div>
+      <div class="price-card"><div class="price-tag">One-Time Setup</div><h4>YouTube Thumbnails</h4><div class="price-amt">₹4,499</div><ul><li>24 Premium Thumbnails</li><li>High-Converting Design</li><li>Custom Graphics</li><li>Brand Consistency</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      <div class="price-card pop"><div class="price-tag">Best Value</div><h4>Combo Package</h4><div class="price-amt">₹7,000</div><ul><li>YouTube + FB + IG + GMB</li><li>Complete Setup</li><li>Priority Support</li><li>Analytics Setup</li></ul><a href="#contact" class="btn btn-primary" style="width:100%; justify-content:center;">Enquire Now</a></div>
+      <div class="price-card"><div class="price-tag">Monthly · Basic ₹3,000 / Pro ₹25,000</div><h4>YouTube Management</h4><div class="price-amt">₹3,000<span>/mo</span></div><ul><li>SEO-Friendly Uploads</li><li>Premium Video Editing</li><li>High-Quality Thumbnails</li><li>Up to 20 Videos/Month</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Select Plan</a></div>
+      <div class="price-card"><div class="price-tag">Monthly · Basic ₹3,000 / Pro ₹10,000</div><h4>Social Media Management</h4><div class="price-amt">₹3,000<span>/mo</span></div><ul><li>Content Calendar</li><li>Poster Design</li><li>Engagement Tracking</li><li>Up to 20 Posts/Month</li></ul><a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">Select Plan</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:
+    radial-gradient(ellipse 55% 45% at 15% 0%, rgba(255,95,31,.10), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 90% 100%, rgba(155,92,246,.12), transparent 55%), var(--black);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Testimonials</div>
+      <h2>What clients say after launch.</h2>
+    </div>
+    <div class="grid test-grid stagger">
+      <div class="test-card"><div class="stars">★★★★★</div><p>"Our enquiries doubled within a month of the new site going live. The WhatsApp bot alone paid for itself in the first week."</p><div class="test-who"><div class="avatar">AR</div><div><div class="name">Ankit Rawal</div><div class="role">Founder, Realty Nest</div></div></div></div>
+      <div class="test-card"><div class="stars">★★★★★</div><p>"SchoolNex replaced three separate registers and a lot of confusion. Parents actually use the portal now."</p><div class="test-who"><div class="avatar">SP</div><div><div class="name">Sunita Pillai</div><div class="role">Principal, Bright Future School</div></div></div></div>
+      <div class="test-card"><div class="stars">★★★★★</div><p>"The team understood our brand faster than agencies twice their size. The brand film they shot still gets shared by our own sales team."</p><div class="test-who"><div class="avatar">MK</div><div><div class="name">Manoj Khurana</div><div class="role">Director, Khurana Resorts</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap" style="max-width:820px;">
+    <div class="section-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions we get asked most.</h2>
+    </div>
+    <div id="faq-list">
+      <div class="faq-item"><div class="faq-q">How long does a typical website take?<span class="plus">+</span></div><div class="faq-a"><p>A landing page usually ships in 3–5 days. A full business website or e-commerce build takes 2–4 weeks depending on scope and content readiness.</p></div></div>
+      <div class="faq-item"><div class="faq-q">Do you work with businesses outside your city?<span class="plus">+</span></div><div class="faq-a"><p>Yes — we deliver pan-India, remotely for most services, and travel on-site for video and drone shoots when needed.</p></div></div>
+      <div class="faq-item"><div class="faq-q">Can FlowNex connect to my existing WhatsApp number?<span class="plus">+</span></div><div class="faq-a"><p>Yes, FlowNex integrates with your existing WhatsApp Business number via the official API — no need to switch numbers.</p></div></div>
+      <div class="faq-item"><div class="faq-q">Do you offer support after the project is delivered?<span class="plus">+</span></div><div class="faq-a"><p>Every project includes a support window post-launch, and ongoing maintenance plans are available after that for updates and fixes.</p></div></div>
+      <div class="faq-item"><div class="faq-q">What's included in the starting price?<span class="plus">+</span></div><div class="faq-a"><p>Starting prices cover the core build as listed. Add-ons like extra pages, custom integrations or rush timelines are quoted separately after a quick discovery call.</p></div></div>
+      <div class="faq-item"><div class="faq-q">Can you handle both the website and the marketing?<span class="plus">+</span></div><div class="faq-a"><p>Yes — in collaboration with Circle Creation we run Google Ads, Meta Ads, SEO and branding alongside development, so the site and the marketing are built to work together.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--panel); border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>Tell us about your project.</h2>
+      <p>Fill the form or reach out directly — we usually reply within a few hours.</p>
+    </div>
+    <div class="grid contact-grid">
+      <form class="reveal" onsubmit="event.preventDefault(); this.querySelector('.btn').textContent='Sent ✓'; this.querySelector('.btn').style.background='linear-gradient(135deg,#22c55e,#16a34a)';">
+        <div class="grid" style="grid-template-columns:1fr 1fr; gap:18px;">
+          <div class="form-field"><label>Name</label><input type="text" placeholder="Your full name" required></div>
+          <div class="form-field"><label>Phone</label><input type="tel" placeholder="+91 00000 00000" required></div>
+        </div>
+        <div class="form-field"><label>Email</label><input type="email" placeholder="you@company.com" required></div>
+        <div class="form-field"><label>Service Needed</label>
+          <select>
+            <option>Website Development</option><option>Software Development</option>
+            <option>App Development</option><option>AI Automation / WhatsApp CRM</option>
+            <option>Digital Marketing</option><option>Cinematic Video Production</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Project Details</label><textarea rows="4" placeholder="Tell us a bit about what you need..."></textarea></div>
+        <button type="submit" class="btn btn-primary magnetic" style="width:100%; justify-content:center; border:none;">Send Message</button>
+      </form>
+      <div class="reveal">
+        <div class="contact-info-card"><div class="ico">☎</div><div><h5>Phone</h5><p>+91 79886 28102 · +91 95724 95969</p></div></div>
+        <div class="contact-info-card"><div class="ico">✉</div><div><h5>Email</h5><p>chingaricreation02@gmail.com</p></div></div>
+        <div class="contact-info-card"><div class="ico">◈</div><div><h5>WhatsApp</h5><p><a href="https://wa.me/917988628102">Chat with us instantly</a></p></div></div>
+        <div class="contact-info-card"><div class="ico">⌂</div><div><h5>Office</h5><p>Pan-India remote delivery, on-site shoots available nationwide.</p></div></div>
+        <div class="map-box">Google Map — office location on request</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="grid footer-grid">
+      <div>
+        <a href="#home" class="logo"><span class="logo-mark">C</span> Chingari Creation</a>
+        <p style="color:var(--ink-dim); font-size:13.5px; margin-top:16px; line-height:1.7; max-width:280px;">Run by Rishu Raj, in collaboration with Circle Creation. Building digital experiences that drive business growth.</p>
+        <div class="social-row" style="margin-top:20px;">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="https://wa.me/917988628102" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div><h5>Services</h5><ul><li><a href="#services">Website Development</a></li><li><a href="#services">Software Development</a></li><li><a href="#services">App Development</a></li><li><a href="#services">AI Automation</a></li><li><a href="#services">Digital Marketing</a></li></ul></div>
+      <div><h5>Products</h5><ul><li><a href="https://flownex.in" target="_blank">FlowNex</a></li><li><a href="#products">SchoolNex</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Chingari Creation. Run by Rishu Raj — In collaboration with Circle Creation. All rights reserved.</p>
+      <p class="mono" style="font-size:11px;">flownex.in</p>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/917988628102" class="whatsapp-float" aria-label="Chat on WhatsApp">💬</a>
+
+<script>
+// Loader
+window.addEventListener('load', () => {
+  setTimeout(()=> document.getElementById('loader').classList.add('hide'), 500);
+});
+
+// Header scroll state + progress bar
+const header = document.getElementById('site-header');
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+  const h = document.documentElement;
+  const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progress.style.width = pct + '%';
+});
+
+// Cursor glow
+const glow = document.getElementById('cursor-glow');
+window.addEventListener('mousemove', (e) => {
+  glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+});
+
+// Magnetic buttons
+document.querySelectorAll('.magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove', (e)=>{
+    const r = btn.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top - r.height/2;
+    btn.style.transform = `translate(${x*0.25}px, ${y*0.35}px)`;
+  });
+  btn.addEventListener('mouseleave', ()=>{ btn.style.transform=''; });
+});
+
+// Mobile menu
+document.getElementById('menu-open').addEventListener('click', ()=> document.getElementById('mobile-menu').classList.add('open'));
+document.getElementById('menu-close').addEventListener('click', ()=> document.getElementById('mobile-menu').classList.remove('open'));
+document.querySelectorAll('#mobile-menu a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('mobile-menu').classList.remove('open')));
+
+// Reveal on scroll
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:0.15});
+document.querySelectorAll('.reveal, .stagger').forEach(el=> io.observe(el));
+
+// Animated counters
+const counters = document.querySelectorAll('.counter');
+const cio = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el = e.target; const target = +el.dataset.target; let cur = 0;
+      const step = Math.max(1, Math.ceil(target/60));
+      const tick = ()=>{ cur += step; if(cur >= target){ el.textContent = target; } else { el.textContent = cur; requestAnimationFrame(tick);} };
+      tick();
+      cio.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+counters.forEach(c=> cio.observe(c));
+
+// Service tabs
+document.querySelectorAll('.service-tabs .tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.service-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.service-panel').forEach(p=>p.classList.remove('active'));
+    const panel = document.querySelector(`.service-panel[data-panel="${btn.dataset.tab}"]`);
+    panel.classList.add('active');
+    panel.scrollIntoView({behavior:'smooth', block:'start', inline:'nearest'});
+  });
+});
+
+// Show more / show less per service panel
+const SVC_LIMIT = 6;
+document.querySelectorAll('.service-panel').forEach(panel=>{
+  const cards = Array.from(panel.querySelectorAll('.svc-card'));
+  if(cards.length <= SVC_LIMIT) return;
+  cards.forEach((c,i)=>{ if(i >= SVC_LIMIT) c.classList.add('svc-hidden'); });
+  const wrap = document.createElement('div');
+  wrap.className = 'show-more-wrap';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'show-more-btn';
+  const remaining = cards.length - SVC_LIMIT;
+  btn.innerHTML = `<span class="label">Show ${remaining} More</span><span class="arrow">▾</span>`;
+  btn.addEventListener('click', ()=>{
+    const isOpen = btn.classList.toggle('open');
+    cards.forEach((c,i)=>{ if(i >= SVC_LIMIT) c.classList.toggle('svc-hidden', !isOpen); });
+    btn.querySelector('.label').textContent = isOpen ? 'Show Less' : `Show ${remaining} More`;
+    if(!isOpen){ panel.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+  wrap.appendChild(btn);
+  panel.appendChild(wrap);
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', ()=>{
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
+    if(!isOpen){ item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+  });
+});
+
+// Portfolio / Work data + render
+const portfolioItems = [
+  {title:'Education / Coaching App', cat:'App', price:'₹25,000', feats:['Live Classes','Course Management','Student Panel','Fees & Payments']},
+  {title:'Food Delivery App (Basic MVP)', cat:'App', price:'₹45,000', feats:['Customer + Restaurant Panel','Admin Panel','Payments Integration','Order Tracking']},
+  {title:'Grocery App (Single Vendor)', cat:'App', price:'₹50,000', feats:['Product & Order Management','Secure Payments','Delivery Management','Notifications']},
+  {title:'Portfolio / Business Website', cat:'Website', price:'₹7,999', feats:['Responsive Design','SEO Friendly','Fast Loading','WhatsApp Integration']},
+  {title:'Landing Page Design', cat:'Website', price:'₹3,999', feats:['High-Converting Design','SEO Friendly','Lead Capture Form','Mobile Responsive']},
+  {title:'School / Coaching Management System', cat:'Software', price:'₹35,000', feats:['Student Management','Attendance & Fees','Exams & Results','SMS / Email Alerts']},
+  {title:'CRM Software', cat:'CRM', price:'₹40,000', feats:['Lead Management','Deal Pipeline','Invoicing','Reports & Analytics']},
+  {title:'WhatsApp AI Automation', cat:'CRM', price:'₹9,999', feats:['Auto Reply & Chatbot Flow','Lead Capture','Integrations','24×7 Support']},
+  {title:'AI Chatbot Development', cat:'Software', price:'₹15,000', feats:['Custom AI Chatbot','Trained on Your Data','Lead Generation','Multi-Platform Support']},
+  {title:'Ads Management (Monthly)', cat:'Branding', price:'₹7,999/mo', feats:['Meta / Facebook Ads','Google Ads','Campaign Setup','Monthly Reports']},
+  {title:'SEO Starter Plan (Monthly)', cat:'Branding', price:'₹5,999/mo', feats:['On-Page + Technical SEO','Keyword Research','Monthly Reports','Performance Tracking']},
+  {title:'Logo Design', cat:'Branding', price:'₹1,999', feats:['Custom Concepts','Unlimited Revisions','High Resolution Files','100% Original']},
+  {title:'Khurana Resorts Website', cat:'Website'},
+  {title:'Aerial Property Showcase', cat:'Drone'},
+  {title:'Spice Route Restaurant Film', cat:'Video'},
+  {title:'Factory Walkthrough Film', cat:'Video'},
+  {title:'Drone Coverage — Township Launch', cat:'Drone'},
+  {title:'Circle Creation Rebrand', cat:'Branding'},
+];
+const grid = document.getElementById('masonry-grid');
+portfolioItems.forEach(item=>{
+  const div = document.createElement('div');
+  div.className = 'm-item'; div.dataset.cat = item.cat;
+  const priceBadge = item.price ? `<span class="price-badge">Starting ${item.price}</span>` : `<span class="price-badge">${item.cat}</span>`;
+  const feats = item.feats ? `<ul class="ph-feats">${item.feats.map(f=>`<li>${f}</li>`).join('')}</ul>` : '';
+  div.innerHTML = `<div class="ph" data-cat="${item.cat}">${priceBadge}<div class="ph-title">${item.title}</div>${feats}</div>`;
+  grid.appendChild(div);
+});
+document.querySelectorAll('.filter-row .tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filter-row .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.m-item').forEach(el=>{
+      el.classList.toggle('hide', f !== 'all' && el.dataset.cat !== f);
+    });
+  });
+});
+
+// Ember particles in hero
+const emberBox = document.getElementById('embers');
+for(let i=0;i<28;i++){
+  const e = document.createElement('div');
+  e.className = 'ember';
+  const size = 3 + Math.random()*5;
+  e.style.width = size+'px'; e.style.height = size+'px';
+  e.style.left = Math.random()*100+'%';
+  e.style.setProperty('--drift', (Math.random()*80-40)+'px');
+  e.style.animationDuration = (6 + Math.random()*8)+'s';
+  e.style.animationDelay = (Math.random()*10)+'s';
+  emberBox.appendChild(e);
+}
+</script>
+</body>
+</html>
